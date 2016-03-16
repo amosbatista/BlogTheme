@@ -512,6 +512,42 @@
 	<style type="text/css">
 
 	  {CustomCSS}
+	  
+	  /*Amós: Aside bar for ads and other contents.
+        */
+        .adContainer{
+            display: block;
+           	position: relative;
+           	border: solid 1px black;
+           	margin: auto;
+           	margin-top: 75px;
+           	width: 45%;
+        }
+        
+        .adContainer img{
+           	width: 25%;
+           	margin: auto;
+           	padding: 0;
+        }
+        .adContainer p{
+            text-align: center;
+           	margin: auto;
+        }
+        
+        @media only screen and (min-width: 768px) {
+            .adContainer{
+                position: absolute;
+                z-index: 1;
+                left: 35px;
+                top: 300px;
+                width: 8%;
+            }
+            .adContainer img{
+               	width: 100%;
+               	margin: auto;
+               	padding: 0;
+            }
+        }
 
 	</style>
 
@@ -542,6 +578,51 @@
 
 
 
+<!-- Amos Translation object-->
+<script>
+    
+    var translationComponent = (
+        function(){
+            var translationString_pt = '{"MainDescription":"Bem-vindos à minha página pessoal. Confira meus desenhos, fotos e textos sobre arte, programação e outros assuntos.","buttonUrl":"http://41.media.tumblr.com/b6dc811b85b6459bdbadd5df27c89e2b/tumblr_o438sncStc1sv5493o1_r1_250.png","buttonCaption":"Acessar Blog em Português","pageLink":"/tagged/portugues","Menu":{"about":{"text":"Sobre","link":"/sobre"},"license":{"text":"Licença","link":"/licensa"},"projects":{"text":"Projetos","link":"/projetos"},"contribute":{"text":"Contribua","link":"/contribua"},"sort":{"text":"Classificar"},"draw":{"text":"Desenhos","link":"/tagged/draw"},"text":{"text":"Textos","link":"/tagged/txt_pt"},"photo":{"text":"Fotos","link":"/tagged/photo"},"archive":{"text":"Arquivos","link":"/archive"}}}';
+            var translationString_en = '{"MainDescription":"Welcome my personal page. Watch my draws, photos, and texts about art, programming and another things.","buttonUrl":"http://41.media.tumblr.com/3d0b8d7649293d89f19d9bcd5e697773/tumblr_o438t5fyJZ1sv5493o1_r1_250.png","buttonCaption":"Access Blog in English","pageLink":"/tagged/english","Menu":{"about":{"text":"About","link":"/about"},"license":{"text":"License","link":"/license"},"projects":{"text":"Projects","link":"/projects"},"contribute":{"text":"Contribute","link":"/contribute"},"sort":{"text":"Sort As"},"draw":{"text":"Draws","link":"/tagged/draw"},"text":{"text":"Texts","link":"/tagged/txt_en"},"photo":{"text":"Photos","link":"/tagged/photo"},"archive":{"text":"Archive","link":"/archive"}}}';
+            var translationObject_Portuguese = JSON.parse(translationString_pt);
+            var translationObject_English = JSON.parse(translationString_en);
+            var currentTranslation = "portuguese"; 
+            
+            // Functions
+            return{
+                ChangeTranslation: function(){
+                    if(currentTranslation == "portuguese")
+                        currentTranslation = "english";
+                    else
+                        currentTranslation = "portuguese";
+                }
+                ,
+                GetTranslation: function(){
+                    if(currentTranslation == "portuguese")
+                        return translationObject_Portuguese;
+                    else
+                        return translationObject_English;
+                }
+                ,
+                SetTranslation: function(){
+                    this.ChangeTranslation();
+                    document.getElementsByClassName("description").innerText = this.GetTranslation().MainDescription;
+                    
+                    //Translation button content
+                     //document.getElementById("translatonLink").href = this.GetTranslation().pageLink;
+                     document.getElementById("translateLinkImg").src = this.GetTranslation().buttonUrl;
+                     document.getElementById("translationText").innerText = this.GetTranslation().buttonCaption;
+                     
+                     // Menu
+                     document.querySelectorAll("a[Title='License']")[0].innerText = this.GetTranslation().Menu.license.text;
+                     document.querySelectorAll("a[Title='License']")[0].href = this.GetTranslation().Menu.license.link;
+                }
+            }
+        }
+    )();
+        
+</script>
 
 </head>
 
@@ -775,6 +856,16 @@
     </script>
 </aside>
 -->
+
+<!-- Amos Buttons for translation -->
+<aside class="adContainer">
+    <a id="translatonLink" href="#" onClick="translationComponent.SetTranslation();">
+        <img id="translateLinkImg" src="http://41.media.tumblr.com/b6dc811b85b6459bdbadd5df27c89e2b/tumblr_o438sncStc1sv5493o1_r1_250.png">
+        <p id="translationText">Traduzir para o português</p>
+    </a>
+    
+</aside>
+
 
 {block:ShowDescription}
 {block:IndexPage}
@@ -1356,8 +1447,6 @@
 </script>
 
 <script src="http://static.tumblr.com/e6lc7yi/yhxnsutwh/go-big-app.js"></script>
-
-
 
 </body>
 <!--
